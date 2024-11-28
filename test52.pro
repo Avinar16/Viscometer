@@ -28,3 +28,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     resources.qrc
+
+DISTFILES += \
+    images/microscope.png \
+    images/skelet.jpg \
+    images/viscosimeter.png

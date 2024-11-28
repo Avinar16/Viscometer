@@ -10,12 +10,12 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -27,36 +27,45 @@ public:
     QWidget *centralwidget;
     QWidget *horizontalLayoutWidget;
     QHBoxLayout *horizontalLayout;
-    QWidget *widget;
+    QWidget *Widget_3D;
     QVBoxLayout *verticalLayout;
     QPushButton *ImageWindowButton;
     QPushButton *WidgetWindowButton;
     QPushButton *pushButton_3;
     QMenuBar *menubar;
-    QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(789, 579);
-        QSizePolicy sizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Preferred);
-        sizePolicy.setHorizontalStretch(100);
-        sizePolicy.setVerticalStretch(100);
+        MainWindow->resize(1000, 600);
+        QSizePolicy sizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
+        MainWindow->setMinimumSize(QSize(1000, 600));
+        MainWindow->setMaximumSize(QSize(1000, 600));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/images/microscope.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        MainWindow->setWindowIcon(icon);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
+        QSizePolicy sizePolicy1(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(centralwidget->sizePolicy().hasHeightForWidth());
+        centralwidget->setSizePolicy(sizePolicy1);
         horizontalLayoutWidget = new QWidget(centralwidget);
         horizontalLayoutWidget->setObjectName("horizontalLayoutWidget");
-        horizontalLayoutWidget->setGeometry(QRect(0, 0, 781, 531));
+        horizontalLayoutWidget->setGeometry(QRect(10, 0, 981, 571));
         horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout->setObjectName("horizontalLayout");
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        widget = new QWidget(horizontalLayoutWidget);
-        widget->setObjectName("widget");
+        Widget_3D = new QWidget(horizontalLayoutWidget);
+        Widget_3D->setObjectName("Widget_3D");
 
-        horizontalLayout->addWidget(widget);
+        horizontalLayout->addWidget(Widget_3D);
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName("verticalLayout");
@@ -129,11 +138,8 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 789, 22));
+        menubar->setGeometry(QRect(0, 0, 1000, 22));
         MainWindow->setMenuBar(menubar);
-        statusbar = new QStatusBar(MainWindow);
-        statusbar->setObjectName("statusbar");
-        MainWindow->setStatusBar(statusbar);
 
         retranslateUi(MainWindow);
 
@@ -142,7 +148,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Viscometer simulation", nullptr));
         ImageWindowButton->setText(QCoreApplication::translate("MainWindow", "\320\272\321\200\321\203\321\202\320\260\321\217 \320\272\320\260\321\200\321\202\320\270\320\275\320\272\320\260", nullptr));
         WidgetWindowButton->setText(QCoreApplication::translate("MainWindow", "\320\276\321\202\320\272\321\200\321\213\321\202\321\214 \320\275\320\276\320\262\320\276\320\265 \320\276\320\272\320\275\320\276", nullptr));
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "useless", nullptr));

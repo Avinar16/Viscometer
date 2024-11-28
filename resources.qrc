@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/skelet.jpg</file>
+        <file>images/microscope.png</file>
+        <file>images/viscosimeter.png</file>
     </qresource>
 </RCC>

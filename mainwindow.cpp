@@ -9,8 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setFixedSize(800, 600);
-
     connect(ui->ImageWindowButton, &QPushButton::clicked, this, &MainWindow::openImageWindow);
     connect(ui->WidgetWindowButton, &QPushButton::clicked, this, &MainWindow::openWidgetWindow);
 
