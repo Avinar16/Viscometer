@@ -8,8 +8,10 @@ Entity{
     property real dt: 0.001
     property real linearSpeed: 1
     property real lookSpeed: 500
-    property real zoomLimit: 0.16
-
+    property real zoomLimit: 5
+    property real zoomOutLimit: 10
+    property real minTilt: -45
+    property real maxTilt: 45
 
     MouseDevice {
         id: mouseDevice
@@ -25,10 +27,14 @@ Entity{
         property point lastPos;
         property real pan;
         property real tilt;
+        property real currentTilt: 0
         sourceDevice: mouseDevice
 
         onPanChanged: root.camera.panAboutViewCenter(pan, upVect);
-        onTiltChanged: root.camera.tiltAboutViewCenter(tilt);
+        onTiltChanged: {
+            root.camera.tiltAboutViewCenter(tilt);
+            currentTilt += tilt;
+        }
 
         onPressed: {
             lastPos = Qt.point(mouse.x, mouse.y);
@@ -37,18 +43,18 @@ Entity{
         }
         onPositionChanged: {
             if(!root.enabled) return;
-
             if (mouse.buttons === 1){ // Left button for rotation
                 pan = -(mouse.x - lastPos.x) * dt * lookSpeed;
 
-                tilt = (mouse.y - lastPos.y) * dt * lookSpeed;
+                let newTilt = (mouse.y - lastPos.y) * dt * lookSpeed;
+                if (currentTilt + newTilt < minTilt) {
+                    newTilt = minTilt - currentTilt;
+                } else if (currentTilt + newTilt > maxTilt) {
+                    newTilt = maxTilt - currentTilt;
+                }
+                tilt = newTilt;
 
-            } else if (mouse.buttons === 2) { // Right button for translate
-                var rx = -(mouse.x - lastPos.x) * dt * linearSpeed;
-                var ry = (mouse.y - lastPos.y) * dt * linearSpeed;
-
-                camera.translate(Qt.vector3d(rx, ry, 0))
-            } else if (mouse.buttons === 3) { // Left & Right button for zoom
+            } else if (mouse.buttons === 3) { // Zoom
                 ry = (mouse.y - lastPos.y) * dt * linearSpeed
                 zoom(ry)
             }
@@ -135,7 +141,7 @@ Entity{
 
 
     function zoom(rz) {
-        if (rz > 0 && zoomDistance(camera.position, camera.viewCenter) < zoomLimit) {
+        if (rz > 0 && zoomDistance(camera.position, camera.viewCenter) < zoomLimit ||  rz < 0 && zoomDistance(camera.position, camera.viewCenter) > zoomOutLimit) {
             return
         }
 
@@ -148,7 +154,7 @@ Entity{
 
     function leftORight(rx)
     {
-        if (rx > 0 && zoomDistance(camera.position, camera.viewCenter) < zoomLimit) {
+        if (rx > 0 && zoomDistance(camera.position, camera.viewCenter) < zoomLimit || rz < 0 && zoomDistance(camera.position, camera.viewCenter) > zoomOutLimit) {
             return
         }
         camera.setUpVector(Qt.vector3d( 0.0, 1.0, 0.0 ))
@@ -160,7 +166,7 @@ Entity{
 
     function upODown(ry)
     {
-        if (ry > 0 && zoomDistance(camera.position, camera.viewCenter) < zoomLimit) {
+        if (ry > 0 && zoomDistance(camera.position, camera.viewCenter) < zoomLimit || rz < 0 && zoomDistance(camera.position, camera.viewCenter) > zoomOutLimit) {
             return
         }
         camera.setUpVector(Qt.vector3d( 0.0, 1.0, 0.0 ))
