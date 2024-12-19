@@ -11,8 +11,8 @@ ApplicationWindow {
     visible: true
     width: 800
     height: 600
-    minimumWidth: 600
-    minimumHeight: 400
+    minimumWidth: 800
+    minimumHeight: 600
     title: "Viscosimeter App"
 
     Row {
@@ -21,7 +21,7 @@ ApplicationWindow {
         Scene3D {
             id: scene3d
 
-            width: parent.width * 0.7
+            width: parent.width * 0.6
             height: parent.height
             
             focus: true
@@ -38,6 +38,8 @@ ApplicationWindow {
 
         ColumnLayout { 
             spacing: 10
+            anchors.left: scene3d.right
+            anchors.right: parent.right
 
             Rectangle {
                 Layout.topMargin: 10   
@@ -64,6 +66,7 @@ ApplicationWindow {
 
             RowLayout {
                 spacing: 10
+                Layout.alignment: Qt.AlignHCenter
 
                 Button {
                     text: "3 RPM"
@@ -84,7 +87,8 @@ ApplicationWindow {
 
             RowLayout {
                 spacing: 10
-
+                Layout.alignment: Qt.AlignHCenter
+                
                 Button {
                     text: "200 RPM"
                     onClicked: controller.setSpeed(200)
