@@ -36,13 +36,13 @@ ApplicationWindow {
 
         }
 
-        Column {
-            width: parent.width * 0.3
-            height: parent.height
+        ColumnLayout { 
             spacing: 10
-            topPadding: 10
 
             Rectangle {
+                Layout.topMargin: 10   
+                Layout.alignment: Qt.AlignHCenter
+
                 width: 100
                 height: 30
                 radius: 5
@@ -57,6 +57,7 @@ ApplicationWindow {
             }
 
             Button {
+                Layout.alignment: Qt.AlignHCenter
                 text: "Начать/Остановить"
                 onClicked: controller.toggleRotation()
             }
@@ -102,6 +103,7 @@ ApplicationWindow {
             }
 
             Button {
+                Layout.alignment: Qt.AlignHCenter
                 text: "Добавить каплю NaOH"
                 onClicked: controller.addDrop()
             }
