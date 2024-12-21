@@ -4,5 +4,6 @@
         <file>RootEntity.qml</file>
         <file>SOrbitCameraController.qml</file>
         <file>models/viscosimeter_model.obj</file>
+        <file>images/menu.png</file>
     </qresource>
 </RCC>

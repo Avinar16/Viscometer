@@ -33,87 +33,89 @@ ApplicationWindow {
             RootEntity {
                 id: root
             }
-
         }
 
-        ColumnLayout { 
-            spacing: 10
+        Rectangle {
             anchors.left: scene3d.right
             anchors.right: parent.right
-
-            Rectangle {
-                Layout.topMargin: 10   
-                Layout.alignment: Qt.AlignHCenter
-
-                width: 100
-                height: 30
-                radius: 5
-                color: controller.isRunning ? "green" : "red"
-
-                Text {
-                    anchors.centerIn: parent
-                    text: controller.isRunning ? "Работа" : "Пауза"
-                    color: "white"
-                }
-
-            }
-
-            Button {
-                Layout.alignment: Qt.AlignHCenter
-                text: "Начать/Остановить"
-                onClicked: controller.toggleRotation()
-            }
-
-            RowLayout {
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            color: "#FFFACD"
+            
+            ColumnLayout {
                 spacing: 10
-                Layout.alignment: Qt.AlignHCenter
+                anchors.right: parent.right
+                anchors.left: parent.left
 
-                Button {
-                    text: "3 RPM"
-                    onClicked: controller.setSpeed(3)
+                Rectangle {
+                    Layout.topMargin: 10   
+                    Layout.alignment: Qt.AlignHCenter
+
+                    width: 100
+                    height: 30
+                    radius: 5
+                    color: controller.isRunning ? "green" : "red"
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: controller.isRunning ? "Работа" : "Пауза"
+                        color: "white"
+                    }
                 }
 
                 Button {
-                    text: "6 RPM"
-                    onClicked: controller.setSpeed(6)
+                    Layout.alignment: Qt.AlignHCenter
+                    text: "Начать/Остановить"
+                    onClicked: controller.toggleRotation()
+                    enabled: !controller.isWaiting
+                }2
+
+                RowLayout {
+                    spacing: 10
+                    Layout.alignment: Qt.AlignHCenter
+
+                    Button {
+                        text: "3 RPM"
+                        onClicked: controller.setSpeedWithDelay(3)
+                        enabled: !controller.isWaiting && controller.isRunning
+                    }
+
+                    Button {
+                        text: "6 RPM"
+                        onClicked: controller.setSpeedWithDelay(6)
+                        enabled: !controller.isWaiting && controller.isRunning
+                    }
+
+                    Button {
+                        text: "100 RPM"
+                        onClicked: controller.setSpeedWithDelay(100)
+                        enabled: !controller.isWaiting && controller.isRunning
+                    }
+                }
+
+                TextArea {
+                    id: logArea
+                    Layout.fillWidth: true
+                    Layout.minimumHeight: 100
+                    readOnly: true
+                    placeholderText: "Лог работы будет выводиться здесь"
                 }
 
                 Button {
-                    text: "100 RPM"
-                    onClicked: controller.setSpeed(100)
+                    Layout.alignment: Qt.AlignHCenter
+                    text: "Добавить каплю NaOH"
+                    onClicked: controller.addDropWithDelay()
+                    enabled: !controller.isWaiting && controller.isRunning
                 }
-
             }
-
-            RowLayout {
-                spacing: 10
-                Layout.alignment: Qt.AlignHCenter
-                
-                Button {
-                    text: "200 RPM"
-                    onClicked: controller.setSpeed(200)
-                }
-
-                Button {
-                    text: "300 RPM"
-                    onClicked: controller.setSpeed(300)
-                }
-
-                Button {
-                    text: "600 RPM"
-                    onClicked: controller.setSpeed(600)
-                }
-
-            }
-
-            Button {
-                Layout.alignment: Qt.AlignHCenter
-                text: "Добавить каплю NaOH"
-                onClicked: controller.addDrop()
-            }
-
         }
-
     }
 
+    Connections {
+        target: controller
+
+        onLogMessage: {
+            logArea.text = message
+        }
+    }
 }
