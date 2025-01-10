@@ -9,10 +9,12 @@ import "."
 
 ApplicationWindow {
     visible: true
-    width: 800
-    height: 600
-    minimumWidth: 800
-    minimumHeight: 600
+    width: 1000
+    height: 800
+    minimumWidth: width
+    minimumHeight: height
+    maximumHeight: height
+    maximumWidth: width
     title: "Viscosimeter App"
 
     Row {
@@ -68,7 +70,7 @@ ApplicationWindow {
                     text: "Начать/Остановить"
                     onClicked: controller.toggleRotation()
                     enabled: !controller.isWaiting
-                }2
+                }
 
                 RowLayout {
                     spacing: 10
@@ -106,6 +108,19 @@ ApplicationWindow {
                     text: "Добавить каплю NaOH"
                     onClicked: controller.addDropWithDelay()
                     enabled: !controller.isWaiting && controller.isRunning
+                }
+                Button {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: "Справочная информация"
+                    onClicked: {
+                        var component = Qt.createComponent("FAQ.qml")
+                        if (component.status === Component.Ready) {
+                            var faqWindow = component.createObject(parent)
+                            faqWindow.visible = true
+                        } else if (component.status === Component.Error) {
+                            console.log("Error loading Faq.qml:", component.errorString())
+                        }
+                    }
                 }
             }
         }

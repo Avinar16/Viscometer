@@ -5,5 +5,7 @@
         <file>SOrbitCameraController.qml</file>
         <file>models/viscosimeter_model.obj</file>
         <file>images/menu.png</file>
+        <file>FAQ.qml</file>
+        <file>images/FAQ.pdf</file>
     </qresource>
 </RCC>
