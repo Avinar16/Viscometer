@@ -60,6 +60,7 @@ ApplicationWindow {
                     height: 30
                     radius: 5
                     color: controller.isRunning ? "green" : "red"
+                    if(controller.is)
 
                     Text {
                         anchors.centerIn: parent
