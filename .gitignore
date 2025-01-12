@@ -1,4 +1,5 @@
 build
+.cache
 .qtcreator
 build.nix
 compile_commands.json
