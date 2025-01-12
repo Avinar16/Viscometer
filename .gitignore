@@ -1,2 +1,6 @@
 build
+.qtcreator
+flake.nix
+flake.lock
+build.nix
 compile_commands.json
