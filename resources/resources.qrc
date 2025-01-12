@@ -7,5 +7,10 @@
         <file>images/menu.png</file>
         <file>FAQ.qml</file>
         <file>images/FAQ.pdf</file>
+        <file>COOLButton.qml</file>
+        <file>PanelButton.qml</file>
+        <file>fonts/Seven Segment.ttf</file>
+        <file>SevenSegmentDisplay.qml</file>
+        <file>Limbus.qml</file>
     </qresource>
 </RCC>

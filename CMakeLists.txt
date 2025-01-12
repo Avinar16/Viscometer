@@ -7,7 +7,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick Quick3D Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick Quick3D Widgets Pdf)
 
 include_directories("include")
 file(GLOB_RECURSE SOURCES "src/*.cpp")
