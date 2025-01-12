@@ -7,5 +7,5 @@ cmake ..
 
 # Cборка
 ```bash
-cmake --build .
+make
 ```
