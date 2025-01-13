@@ -23,19 +23,46 @@ ApplicationWindow {
 
         environment: SceneEnvironment {
             id: sceneEnvironment
-            // clearColor: "#002b36"
-            // backgroundMode: SceneEnvironment.Color
+            clearColor: "#AFDAFC"
+            backgroundMode: SceneEnvironment.Color
             antialiasingMode: SceneEnvironment.MSAA
             antialiasingQuality: SceneEnvironment.High
         }
-
+        property real br: 3
+        // Up light
         DirectionalLight {
             id: light1
-            position: Qt.vector3d(100, 100, 100)
-            rotation: Quaternion.fromEulerAngles(45, 45, 0)
-            shadowBias: 0.005
-            shadowFactor: 0.5
-            shadowMapQuality: Light.ShadowMapQualityVeryHigh
+            position: Qt.vector3d(0, 4, 0)
+            rotation: Quaternion.fromEulerAngles(-90, 0, 0)
+            brightness: scene3d.br
+        }
+        // Right light
+        DirectionalLight {
+            id: light2
+            position: Qt.vector3d(4, 0, 0)
+            rotation: Quaternion.fromEulerAngles(0, 90, 0)
+            brightness: scene3d.br
+        }
+        // Left light
+        DirectionalLight {
+            id: light3
+            position: Qt.vector3d(-4, 0, 0)
+            rotation: Quaternion.fromEulerAngles(0, -90, 0)
+            brightness: scene3d.br
+        }
+        // Back light
+        DirectionalLight {
+            id: light4
+            position: Qt.vector3d(0, 0, -4)
+            rotation: Quaternion.fromEulerAngles(0, 180, 0)
+            brightness: scene3d.br
+        }
+        // Front light
+        DirectionalLight {
+            id: light5
+            position: Qt.vector3d(0, 0, 4)
+            rotation: Quaternion.fromEulerAngles(0, 0, 0)
+            brightness: scene3d.br
         }
 
         Node {
@@ -46,7 +73,7 @@ ApplicationWindow {
                 clipNear: 1
                 clipFar: 1000
 
-                property real minZoom: 3
+                property real minZoom: 3.5
                 property real maxZoom: 10
 
                 onZChanged: {
@@ -57,19 +84,21 @@ ApplicationWindow {
                 }
             }
 
-            property real minPitch: -80
-            property real maxPitch: 80
+            property real minPitch: -85
+            property real maxPitch: 10
+            property bool rotationChangeBlocked: false
 
-            // FIX rotation min/max set
             onRotationChanged: {
+                if (rotationChangeBlocked)
+                    return;
+
+                rotationChangeBlocked = true;
                 const euler = rotation.toEulerAngles();
-                const pitch = euler.x * 180 / Math.PI;
-                if (pitch < minPitch) {
-                    rotation = quaternion(minPitch * Math.PI / 180, euler.y, euler.z);
-                }
-                if (pitch > maxPitch) {
-                    rotation = Qt.quaternion(maxPitch * Math.PI / 180, euler.y, euler.z);
-                }
+                const pitch = Math.max(minPitch, Math.min(maxPitch, euler.x));
+                const yaw = euler.y % 360;
+                const roll = 0;
+                rotation = Quaternion.fromEulerAngles(pitch, yaw, roll);
+                rotationChangeBlocked = false;
             }
         }
 
@@ -82,6 +111,8 @@ ApplicationWindow {
 
         RuntimeLoader {
             id: importNode
+            position: Qt.vector3d(0, 0, 0)
+            rotation: Quaternion.fromEulerAngles(0, 0, 0)
             source: "qrc:/models/viscosimeter_model.glb"
         }
     }
