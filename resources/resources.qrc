@@ -1,9 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>RootEntity.qml</file>
-        <file>SOrbitCameraController.qml</file>
-        <file>models/viscosimeter_model.obj</file>
+        <file>models/viscosimeter_model.glb</file>
         <file>images/menu.png</file>
         <file>FAQ.qml</file>
         <file>images/FAQ.pdf</file>
