@@ -147,9 +147,9 @@ ApplicationWindow {
             onClicked: controller.toggleRotation()
             enabled: !controller.isWaiting
         }
-
+        // Приборная панель
         Rectangle {
-            opacity: controller.isRunning ? 1 : 0.5
+            opacity: (controller.isRunning && !controller.isWaiting) ? 1 : 0.5
             layer.enabled: true
 
             Layout.preferredHeight: 400
@@ -195,7 +195,7 @@ ApplicationWindow {
                             text: "6"
                             onClicked: {
                                 sevenSegmentDisplay.text = "0006";
-                                controller.setSpeedWithDelay(3);
+                                controller.setSpeedWithDelay(6);
                             }
                             enabled: !controller.isWaiting && controller.isRunning
                         }
@@ -204,7 +204,7 @@ ApplicationWindow {
                             text: "100"
                             onClicked: {
                                 sevenSegmentDisplay.text = "0100";
-                                controller.setSpeedWithDelay(3);
+                                controller.setSpeedWithDelay(100);
                             }
                             enabled: !controller.isWaiting && controller.isRunning
                         }
@@ -213,7 +213,7 @@ ApplicationWindow {
                             text: "200"
                             onClicked: {
                                 sevenSegmentDisplay.text = "0200";
-                                controller.setSpeedWithDelay(3);
+                                controller.setSpeedWithDelay(200);
                             }
                             enabled: !controller.isWaiting && controller.isRunning
                         }
@@ -222,7 +222,7 @@ ApplicationWindow {
                             text: "300"
                             onClicked: {
                                 sevenSegmentDisplay.text = "0300";
-                                controller.setSpeedWithDelay(3);
+                                controller.setSpeedWithDelay(300);
                             }
                             enabled: !controller.isWaiting && controller.isRunning
                         }
@@ -231,7 +231,7 @@ ApplicationWindow {
                             text: "600"
                             onClicked: {
                                 sevenSegmentDisplay.text = "0600";
-                                controller.setSpeedWithDelay(3);
+                                controller.setSpeedWithDelay(600);
                             }
                             enabled: !controller.isWaiting && controller.isRunning
                         }
@@ -243,7 +243,7 @@ ApplicationWindow {
                     Layout.alignment: Qt.AlignHCenter
                     width: 50
                     height: 50
-                    value: 11.5
+                    value: controller.result
                     maxValue: 100
                 }
             }
@@ -255,7 +255,8 @@ ApplicationWindow {
 
             Layout.alignment: Qt.AlignHCenter
             TextArea {
-                Layout.minimumHeight: implicitHeight
+                id: phArea
+                Layout.minimumHeight: 50
                 Layout.minimumWidth: 100
                 placeholderText: "Введите pH вещества"
                 color: "black"
@@ -264,19 +265,32 @@ ApplicationWindow {
                 property int maximumLength: 300
                 property string lastValidText: ""
                 onTextChanged: {
-                    if (text.length > maximumLength && maximumLength > -1) {
+                    let filteredText = text.replace(/[^0-9.]+/g, "");
+                    if (text.length > maximumLength) {
                         var currentPosition = cursorPosition - 1;
                         text = lastValidText;
                         cursorPosition = currentPosition;
                     } else {
                         lastValidText = text;
                     }
+                    if (text !== filteredText) {
+                        text = filteredText;
+                        cursorPosition = text.length;
+                    }
                 }
+
+
             }
 
             Column {
                 COOLButton {
                     text: "Загрузить"
+                    onClicked: {
+                        controller.addDropWithDelay(parseFloat(phArea.text));
+                    }
+                    enabled: (phArea.text.length > 0 && controller.getSpeed != 0) ? true : false;
+                    opacity: (controller.isRunning && !controller.isWaiting && phArea.text.length > 0 && controller.getSpeed != 0) ? 1 : 0.5
+
                 }
             }
         }

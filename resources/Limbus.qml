@@ -7,8 +7,12 @@ Item {
     width: 200
     height: 200
 
-    property double value: 0.0  // Текущее значение
     property double maxValue: 100.0  // Максимальное значение
+    property double value: 0.0  // Текущее значение
+    onValueChanged: {
+        textValue.text = value.toFixed(1)
+        canvas.requestPaint()
+    }
 
     // Подложка для лимбуса
     Rectangle {
@@ -18,6 +22,7 @@ Item {
     }
 
     Canvas {
+        id: canvas
         width: parent.width + 50
         height: parent.width + 50
         anchors.centerIn: parent
@@ -44,6 +49,7 @@ Item {
 
     // Цифра внутри лимбуса
     Text {
+        id: textValue
         text: value.toFixed(1)  // Отображение текущего значения
         font.pixelSize: 17
         anchors.centerIn: parent
