@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import QtQuick3D
 import QtQuick3D.Helpers
 import QtQuick3D.AssetUtils
-import QtQuick3D.Effects
 
 import "."
 
@@ -257,12 +256,13 @@ ApplicationWindow {
             TextArea {
                 id: phArea
                 Layout.minimumHeight: 50
+                Layout.maximumHeight: 50
                 Layout.minimumWidth: 100
                 placeholderText: "Введите pH вещества"
                 color: "black"
                 wrapMode: TextArea.Wrap
 
-                property int maximumLength: 300
+                property int maximumLength: 10
                 property string lastValidText: ""
                 onTextChanged: {
                     let filteredText = text.replace(/[^0-9.]+/g, "");
@@ -270,12 +270,13 @@ ApplicationWindow {
                         var currentPosition = cursorPosition - 1;
                         text = lastValidText;
                         cursorPosition = currentPosition;
-                    } else {
-                        lastValidText = text;
                     }
-                    if (text !== filteredText) {
+                    else if (text !== filteredText) {
                         text = filteredText;
                         cursorPosition = text.length;
+                    }
+                    else {
+                        lastValidText = text;
                     }
                 }
 
