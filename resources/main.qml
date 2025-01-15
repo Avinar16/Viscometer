@@ -4,7 +4,6 @@ import QtQuick.Layouts
 import QtQuick3D
 import QtQuick3D.Helpers
 import QtQuick3D.AssetUtils
-import QtQuick3D.Effects
 
 import "."
 

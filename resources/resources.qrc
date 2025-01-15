@@ -10,5 +10,7 @@
         <file>fonts/Seven Segment.ttf</file>
         <file>SevenSegmentDisplay.qml</file>
         <file>Limbus.qml</file>
+        <file>images/icon.ico</file>
+        <file>images/icon.rc</file>
     </qresource>
 </RCC>
